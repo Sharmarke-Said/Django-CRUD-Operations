@@ -12,7 +12,7 @@ def index(request):
 
 def add_student(request):
     if request.method == 'POST':
-        form = StudentRegistrationForm(request.POST)
+        form = StudentRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -35,64 +35,37 @@ def delete_student(request, id):
     return render(request, 'crudapp/index.html', {'student': student})
 
 
-# def update_student(request, id):
-#     student = get_object_or_404(Student, id=id)
 
-#     if request.method == 'POST':
-#         form = StudentRegistrationForm(request.POST, instance=student)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('index')  # Redirect to the home page after a successful update
 
-#     else:
-#         form = StudentRegistrationForm(instance=student)
 
-#     return render(request, 'crudapp/index.html', {'student': student})
 
 # def update_student(request, id):
 #     student = get_object_or_404(Student, id=id)
 
 #     if request.method == 'POST':
-#         form = StudentRegistrationForm(request.POST, instance=student)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('index')
-#     else:
-#         form = StudentRegistrationForm(instance=student)
-    
-#     return render(request, 'crudapp/index.html', {'form': form, 'student': student})
-
-
-# def update_student(request, id):
-#     # For debugging purpose
-#     print('ID: ', id) 
-#     student = get_object_or_404(Student, id=id)
-
-#     if request.method == 'POST':
-#         form = StudentRegistrationForm(request.POST, instance=student)
+#         form = StudentRegistrationForm(request.POST or None, request.FILES or None, instance=student)
 #         if form.is_valid():
 #             form.save()
 #             return redirect('index')
 #     else:
 #         form = StudentRegistrationForm(instance=student)
 
-#     # for debugging purpose
-#     print(student)
-    
 #     return render(request, 'crudapp/index.html', {'form': form, 'student': student})
-
 
 def update_student(request, id):
     student = get_object_or_404(Student, id=id)
 
-    if request.method == 'POST':
-        form = StudentRegistrationForm(request.POST, instance=student)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = StudentRegistrationForm(instance=student)
+    # if request.method == 'POST':
+    form = StudentRegistrationForm(request.POST or None, request.FILES or None, instance=student)
 
-    # Fetch all students for the table
-    students = Student.objects.all()
-    return render(request, 'crudapp/index.html', {'form': form, 'student': student, 'students': students})
+    if form.is_valid():
+        form.save()
+
+        return redirect('index')
+    # else:
+    #     form = StudentRegistrationForm()
+
+
+    return render(request, 'crudapp/update_student.html',
+                   {'form': form, 
+                    'student': student})

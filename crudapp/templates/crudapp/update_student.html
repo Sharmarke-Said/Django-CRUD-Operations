@@ -1,0 +1,21 @@
+{% extends "crudapp/base.html" %}
+
+{% block title %} update student {% endblock %}
+
+{% block content %} 
+
+    <form method="post" action="{% url 'update_student' student.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <!-- Display Image -->
+        {% if student.student_image %}
+        <img  src="{{ student.student_image.url }}" alt="{{ student.name }} " width="500">
+        {% endif %}
+
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+
+{% endblock %}
