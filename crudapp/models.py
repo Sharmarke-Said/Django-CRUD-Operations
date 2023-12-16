@@ -2,6 +2,15 @@ from django.db import models
 import os
 # Create your models here.
 
+
+# class CreateUser(AbstractUser):
+#     # Add any additional fields you need
+#     email = models.EmailField(unique=True)
+
+#     def __str__(self):
+#         return self.username
+
+
 class Student(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
